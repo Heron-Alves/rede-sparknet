@@ -1,9 +1,10 @@
-"use client"
-import axios from "axios";
+"use client";
+
+import AuthInput from "../../components/AuthInput";
 import Link from "next/link";
 import { useState } from "react";
-import AuthPage from "../components/AuthPage";
-import AuthInput from "../components/Authinput";
+import { makeRequest } from "../../../../axios";
+import { useRouter } from "next/router";
 
 function Login(e: any) {
 
@@ -11,11 +12,15 @@ function Login(e: any) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const router = useRouter();
+
   const handleLogin = () => {
     e.preventDefault()
-    axios.post("http://localhost:8000/api/auth/login", { email, password }).then((res) => {
-      console.log(res.data);
-      setError('')
+    makeRequest.post("auth/login", { email, password }).then((res) => {
+      localStorage.setItem("rede-sparknet:user", JSON.stringify(res.data.data.user));
+      localStorage.setItem("rede-sparknet:token", JSON.stringify(res.data.data.token));
+      setError('');
+      router.push('/');
     }).catch((err) => {
       console.log(err);
       setError(err.response.msg)
@@ -23,7 +28,7 @@ function Login(e: any) {
   }
 
   return (
-    <AuthPage>
+    <>
       <h1 className="font-bold text-2xl ">LOGIN</h1>
       <AuthInput label="Email:" newState={setEmail} />
       <AuthInput label="password" newState={setPassword} IsPassword />
@@ -34,7 +39,7 @@ function Login(e: any) {
       {error.length > 0 && <span className="next-red-600">* {error}</span>}
       <button className="bg-green-600 py-3 font-bold text-white rounded-lg hover:bg-green-800" onClick={(e) => handleLogin(e)}>ENTRAR</button>
       <Link href="/register" className="text-center underline">Cadastrar-se</Link>
-    </AuthPage>
+    </>
   );
 }
 
