@@ -1,19 +1,22 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {FaSearch, FaBell} from "react-icons/fa";
-import {TbMessageCircle2Filled} from "react-icons.tb";
-import { useRouter } from "next/router";
+import {TbMessageCircle2Filled} from "react-icons/tb";
+
+//import { useRouter } from "next/router";
 
 function Header() {
 
-    const [user,setuser] = useState ({username:'', userImg:''});
+    const [user,setUser] = useState ({username:'', userImg:''});
     const [shadow,setShadow] = useState (false);
+    const [showMenu, setShowMenu] = useState(false);
     const router = useRouter()
 
     useEffect(()=> {
         let value = localStorage.getItem("rede-sparknet:user")
         if(value){
-            setDefaultResultOrder(JSON.parse(value));
+            setUser(JSON.parse(value));
         }
     },[]);
 
@@ -40,8 +43,9 @@ function Header() {
                     </button>
                 </div>
                 <div className="relative" onMouseLeave={()=>setShowMenu(false)}>
-                    <button className="flex gap-2 items-center" onClick={()=>setShowMwnu(!showMenu)}>
-                        <img src={user.userImg.length > 0? user.img :"https://img.freepik.com/free-icon/    user_318-159711.jpg"} alt="Imagem do perfil" className="w-8 h-8 rounded-full
+                    <button className="flex gap-2 items-center" onClick={()=>setShowMenu(!showMenu)}>
+                    <img 
+                    src={user?.userImg ? user.userImg:"https://img.freepik.com/free-icon/user_318-159711.jpg"} alt="Imagem do perfil" className="w-8 h-8 rounded-full
                         "/>
                         <span className="font-bold">{user.username}</span>
                     </button>
@@ -56,3 +60,5 @@ function Header() {
         </header>
     )
 }
+
+export default Header;

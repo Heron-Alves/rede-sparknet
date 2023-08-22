@@ -4,7 +4,7 @@ import AuthInput from "../../components/AuthInput";
 import Link from "next/link";
 import { useState } from "react";
 import { makeRequest } from "../../../../axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function Login(e: any) {
 
@@ -30,14 +30,10 @@ function Login(e: any) {
   return (
     <>
       <h1 className="font-bold text-2xl ">LOGIN</h1>
-      <AuthInput label="Email:" newState={setEmail} />
+      <AuthInput label="Email:" newState={setEmail} IsPassword={false} />
       <AuthInput label="password" newState={setPassword} IsPassword />
-      <div className="flex flex-col justify-between items-start">
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" onChange={(e) => setPassword(e.currentTarget.value)} className="border-gray-400 border-b w-full focus-visible:border-gray-700 focus-visible:border-b focus-visible:outline-none" />
-      </div>
       {error.length > 0 && <span className="next-red-600">* {error}</span>}
-      <button className="bg-green-600 py-3 font-bold text-white rounded-lg hover:bg-green-800" onClick={(e) => handleLogin(e)}>ENTRAR</button>
+      <button className="bg-green-600 py-3 font-bold text-white rounded-lg hover:bg-green-800" onClick={(e) => handleLogin()}>ENTRAR</button>
       <Link href="/register" className="text-center underline">Cadastrar-se</Link>
     </>
   );

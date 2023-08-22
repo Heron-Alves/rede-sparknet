@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
-import Header from "./components/Header";
-import { useRouter } from "next/router";
+import Header from "../app/components/Header";
+import Sidebar from "../app/components/Sidebar";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Sidebar from "./components/Sidebar";
+import Feed from "./components/Feed";
+
 
 export default function Home() {
-
   const router = useRouter();
 
   useEffect(()=>{
-    let value = localStorage.getItem("rede-starknet:token"); 
+    let value = localStorage.getItem("rede-sparknet:token"); 
     if(!value) {
       router.push('/login')
     }
@@ -18,9 +19,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-zinc-100">
-      <Header/>
+      <Header />
       <div className="w-full flex justify-start pt-10">
-        <Sidebar/>
+        <Sidebar />
+        <Feed />
       </div>
     </main>
   );
